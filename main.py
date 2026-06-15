@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 import yt_dlp
 
@@ -63,3 +64,34 @@ def search_youtube(query: str, max_results: int = 15):
             
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"YouTube araması sırasında hata: {str(e)}")
+    
+@app.get("/stream/{video_id}")
+def stream_song(video_id: str):
+    """
+    Gönderilen YouTube Video ID'sinin arka planda korumalarını aşarak
+    doğrudan çalınabilir temiz .m4a ses linkini bulur ve oynatıcıyı oraya yönlendirir.
+    """
+    if not video_id:
+        raise HTTPException(status_code=400, detail="Video ID boş olamaz!")
+
+    # Android'in ve just_audio'nun en sevdiği, 403 hatasını en az veren format: m4a (mp4 ses)
+    ydl_opts = {
+        'format': 'bestaudio[ext=m4a]/bestaudio/best',
+        'noplaylist': True,
+        'quiet': True,
+    }
+
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            # Sadece videonun meta verilerini ve gizli akış linkini alıyoruz (bilgisayara dosya indirmiyoruz)
+            info = ydl.extract_info(f"https://www.youtube.com/watch?v={video_id}", download=False)
+            
+            audio_url = info.get('url')
+            if not audio_url:
+                raise HTTPException(status_code=404, detail="Ses akışı bulunamadı.")
+            
+            # Bulunan gizli ve temiz ses linkine yönlendir (HTTP 307 Temporary Redirect)
+            return RedirectResponse(url=audio_url)
+            
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Akış çekilirken hata: {str(e)}")
