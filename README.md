@@ -3,7 +3,7 @@
 This project is developed for a music app. It is a proxy backend that can overcome Youtube bot protections and provide audio streaming.
 
 ## 🚀 Techs
-* **Python 3.x**
+* **Python 3.14.5**
 * **FastAPI** (High performance API server)
 * **yt-dlp** (Audio data provider and protection skipper)
 
