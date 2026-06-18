@@ -79,10 +79,15 @@ def stream_song(video_id: str):
     cookies_content = os.getenv("YOUTUBE_COOKIES")
     cookie_path = "cookies.txt"
 
-    # Eğer çerez varsa, yt-dlp'nin okuyabilmesi için bir dosyaya yazıyoruz
     if cookies_content:
-        with open(cookie_path, "w", encoding="utf-8") as f:
-            f.write(cookies_content)
+        # Bazen Render '\n' karakterlerini düz yazı gibi kaydeder, bunu gerçek satır atlamaya çeviriyoruz
+        clean_cookies = cookies_content.replace('\\n', '\n').replace('\r', '')
+        
+    with open(cookie_path, "w", encoding="utf-8") as f:
+        # Baştaki Netscape yazısının bozulmadığından emin olmak için zorla ekliyoruz
+        if "# Netscape HTTP Cookie File" not in clean_cookies:
+            f.write("# Netscape HTTP Cookie File\n# https://curl.haxx.se/rfc/cookie_spec.html\n# This is a generated file! Do not edit.\n\n")
+        f.write(clean_cookies)
     
     # Android'in ve just_audio'nun en sevdiği, 403 hatasını en az veren format: m4a (mp4 ses)
     ydl_opts = {
