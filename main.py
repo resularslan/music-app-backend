@@ -79,6 +79,11 @@ def stream_song(video_id: str):
         'format': 'bestaudio/best',
         'noplaylist': True,
         'quiet': True,
+        'extractor_args': {
+                'youtube': {
+                    'client': ['android', 'ios']
+                }
+            }
     }
 
     try:
