@@ -93,7 +93,7 @@ def stream_song(video_id: str):
     # 3. ADIM: İndirme Ayarları (Maskeleri çıkardık!)
     ydl_opts = {
         # Formatı garantilemek için önce m4a, bulamazsa herhangi bir bestaudio, o da yoksa best diyoruz.
-        'format': 'm4a/bestaudio/best', 
+        'format': 'bestaudio/best',
         'noplaylist': True,
         'quiet': True,
         # VIP Giriş Kartımız:
