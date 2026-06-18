@@ -90,18 +90,15 @@ def stream_song(video_id: str):
         f.write(clean_cookies)
     
     # Android'in ve just_audio'nun en sevdiği, 403 hatasını en az veren format: m4a (mp4 ses)
+    # 3. ADIM: İndirme Ayarları (Maskeleri çıkardık!)
     ydl_opts = {
-        'format': 'bestaudio/best',
+        # Formatı garantilemek için önce m4a, bulamazsa herhangi bir bestaudio, o da yoksa best diyoruz.
+        'format': 'm4a/bestaudio/best', 
         'noplaylist': True,
         'quiet': True,
-        # Anonim çerezi sisteme yediriyoruz!
+        # VIP Giriş Kartımız:
         'cookiefile': cookie_path if cookies_content else None,
-        'extractor_args': {
-            'youtube': {
-                # Web engellerini aşmak için kendimizi mobil cihaz gibi gösteriyoruz
-                'client': ['android', 'ios'] 
-            }
-        }
+        # extractor_args (Android/iOS taklidi) kısmını TAMAMEN SİLDİK!
     }
 
     try:
