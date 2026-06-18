@@ -76,9 +76,11 @@ def stream_song(video_id: str):
 
     # Android'in ve just_audio'nun en sevdiği, 403 hatasını en az veren format: m4a (mp4 ses)
     ydl_opts = {
-        'format': 'bestaudio[ext=m4a]/bestaudio/best',
+        'format': 'bestaudio/best',
         'noplaylist': True,
         'quiet': True,
+        'external_downloader': 'aria2c',
+        'external_downloader_args': ['-x', '16', '-s', '16', '-k', '1M'],
     }
 
     try:
