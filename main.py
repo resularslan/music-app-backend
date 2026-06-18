@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 import yt_dlp
+import os
 
 app = FastAPI(title="Music App Proxy API 🎵")
 
@@ -74,16 +75,28 @@ def stream_song(video_id: str):
     if not video_id:
         raise HTTPException(status_code=400, detail="Video ID boş olamaz!")
 
+    # Render'daki gizli kasadan anonim çerezleri okuyoruz
+    cookies_content = os.getenv("YOUTUBE_COOKIES")
+    cookie_path = "cookies.txt"
+
+    # Eğer çerez varsa, yt-dlp'nin okuyabilmesi için bir dosyaya yazıyoruz
+    if cookies_content:
+        with open(cookie_path, "w", encoding="utf-8") as f:
+            f.write(cookies_content)
+    
     # Android'in ve just_audio'nun en sevdiği, 403 hatasını en az veren format: m4a (mp4 ses)
     ydl_opts = {
         'format': 'bestaudio/best',
         'noplaylist': True,
         'quiet': True,
+        # Anonim çerezi sisteme yediriyoruz!
+        'cookiefile': cookie_path if cookies_content else None,
         'extractor_args': {
-                'youtube': {
-                    'client': ['android', 'ios']
-                }
+            'youtube': {
+                # Web engellerini aşmak için kendimizi mobil cihaz gibi gösteriyoruz
+                'client': ['android', 'ios'] 
             }
+        }
     }
 
     try:
