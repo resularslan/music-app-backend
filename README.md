@@ -1,15 +1,14 @@
-# VibeFlow Proxy Backend 🎵
+# Music App Proxy Backend 🎵
 
-> ✨ **Developer Note:** This entire project was brought to life through **Vibe Coding**! 🌊 By leveraging AI for rapid prototyping, complex system design, and architecture, the focus was kept purely on product vision, UX, and solving real problems without getting bogged down by boilerplate code. Even this text is generated with AI.
+> ✨ **Developer Note:** This entire project was brought to life through **Vibe Coding**! 🌊 By leveraging AI for rapid prototyping, complex system design, and architecture, the focus was kept purely on product vision, UX, and solving real problems without getting bogged down by boilerplate code. Even this text is generated with AI. 
 > ❗ **Warning:** This project is provided for educational and research purposes only. The author assumes no responsibility or liability for any misuse of this software, violation of YouTube’s Terms of Service, or any other damages or consequences arising from its use. Use at your own risk.
 
-This project is the custom backend developed for the VibeFlow music app. It acts as a high-speed proxy that overcomes YouTube bot protections and provides seamless, lightning-fast audio streaming and downloading.
+This project is the custom backend developed for a music app. It acts as a high-speed proxy that overcomes YouTube bot protections and provides seamless, lightning-fast audio streaming and downloading.
 
 ## 🚀 Tech Stack
 * **Python 3.10+**
 * **FastAPI** (High-performance API server)
 * **yt-dlp** (Audio data extraction and protection skipper)
-* **aria2c & FFmpeg** (Multi-threaded download accelerators for lightning-fast audio processing)
 * **Docker** (Containerized for seamless cloud deployment)
 
 ---
